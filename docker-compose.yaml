@@ -1,0 +1,54 @@
+version: '3.7'
+
+services:
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce
+    restart: always
+    ports:
+      - "9000:9000/tcp"
+    environment:
+      - TZ=Europe/Oslo
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/portainer:/data
+
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - /opt/homeassistant/config:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    volumes:
+      - /opt/mosquitto:/mosquitto
+      - /opt/mosquitto/data:/mosquitto/data
+      - /opt/mosquitto/log:/mosquitto/log
+    ports:
+      - 1883:1883
+      - 9001:9001
+
+services:
+  node-red:
+    build: .
+    container_name: "node-red"
+    environment:
+      TZ: ${TZ}
+    image: "nodered/node-red"
+    restart: unless-stopped
+    ports:
+      - "1880:1880"
+    volumes:
+      - "data:/data"
+volumes:
+  data:
+    name: node-red_data
+    driver: local-persist
+    driver_opts:
+      mountpoint: ${LOCAL_PERSIST}/node-red/data

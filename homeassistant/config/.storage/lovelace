@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace",
+  "data": {
+    "config": {
+      "title": "Markusplassen",
+      "views": [
+        {
+          "theme": "Backend-selected",
+          "path": "default_view",
+          "title": "Hjem",
+          "icon": "mdi:home",
+          "subview": false,
+          "badges": [],
+          "cards": [
+            {
+              "type": "entities",
+              "entities": [
+                "sensor.hacs"
+              ],
+              "title": "Markusplassen"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                "person.bjornar_markussen"
+              ]
+            },
+            {
+              "show_current": true,
+              "show_forecast": true,
+              "type": "weather-forecast",
+              "entity": "weather.forecast_markusplassen",
+              "theme": "Fluent Blue",
+              "name": "Været på Markusplassen"
+            },
+            {
+              "type": "media-control",
+              "entity": "media_player.loftstue"
+            },
+            {
+              "square": true,
+              "columns": 2,
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "thermostat",
+                  "entity": "climate.k01_kjokken"
+                },
+                {
+                  "type": "thermostat",
+                  "entity": "climate.k02_stue_1"
+                },
+                {
+                  "type": "thermostat",
+                  "entity": "climate.k03_stue_2"
+                },
+                {
+                  "type": "thermostat",
+                  "entity": "climate.k07_soverom_hoyre"
+                },
+                {
+                  "type": "thermostat",
+                  "entity": "climate.k08_kontor"
+                },
+                {
+                  "type": "thermostat",
+                  "entity": "climate.k09_soverom_venstre"
+                },
+                {
+                  "type": "thermostat",
+                  "entity": "climate.k11_soverom_m"
+                },
+                {
+                  "type": "thermostat",
+                  "entity": "climate.k12_loftstue"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

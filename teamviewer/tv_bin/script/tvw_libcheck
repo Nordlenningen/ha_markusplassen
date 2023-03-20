@@ -1,0 +1,80 @@
+
+function RunLddCheck()
+{
+  local -r lddlog="$1"
+  local -r silent="$2"
+
+  local -r tvdaemn="$TV_BIN_DIR/teamviewerd"				# dl, pthread, rt, dbus,               X11, Xau, xcb, Xdmcp
+  local -r tvdeskt="$TV_BIN_DIR/TeamViewer_Desktop"			# dl, pthread, rt, dbus, ICE, SM, uuid, X11, Xau, xcb, Xdmcp, Xext, Xrender, Xdamage, libXfixes, Xrandr, Xtst
+  local -r tvgui="$TV_BIN_DIR/TeamViewer"					# dl, pthread, rt, dbus, Qt*
+  local -r qtxcb="$TV_BIN_DIR/RTlib/qt/plugins/platforms/libqxcb.so"  # xcb-*
+
+  echo > "$lddlog" || Rdie "could not write to $lddlog"
+  [ -z "$silent" ]   && echo "    Writing raw output to $lddlog"
+
+  CheckLibDependency 'TV_DMN'   "$tvdaemn" "$lddlog"
+  CheckLibDependency 'TV_DESK'  "$tvdeskt" "$lddlog"
+  CheckLibDependency 'TV_GUI'   "$tvgui"   "$lddlog"
+  CheckLibDependency 'QT_XCB'   "$qtxcb"   "$lddlog"
+}
+
+function CheckLibDependency()
+{
+  local -r caption="$1"
+  local -r binary="$2"
+  local -r logfile="$3"
+
+  [ -f "$binary" ] || Rdie "unexpected error: file '$binary' not found."
+
+  echo "$caption" >> "$logfile"
+
+  LC_ALL='C' ldd "$binary" >> "$logfile" || CheckLddResult "$logfile"
+}
+
+function CheckLddResult()
+{
+  local -r lddlogfile="$1"
+
+  Recho "An error occurred."
+
+  # Check for 'not a dynamic executable'
+  cat "$lddlogfile" | grep -q dynamic || return
+
+  echo "
+    Your system probably does not support this package type.
+    Please make sure you picked the proper package for your system
+    e.g. x86 64bit for Intel/AMD 64 bit,
+         x86 32bit for Intel/AMD 32 bit,
+    or   armv7     for ARM devices (Raspberry Pi)
+
+    "
+
+    exit 1
+}
+
+function AnalyzeLddResult()
+{
+  local -r lddlogfile="$1"
+  local -r showGUIMessageBox="$2"
+
+  echo
+  ABecho "Analyzing dependencies ..."
+
+  local -r missingLibraries="$(cat "$lddlogfile" | sort -u | grep 'not found')"
+
+  if [ -z "$missingLibraries" ]; then
+    Gecho "\n\tAll library dependencies (*.so) seem to be satisfied!"
+    return 0
+  else
+    echo "$missingLibraries"
+    Recho "\n\tThe libraries listed above seem to be missing."
+    echo -e "\tPlease find and install the corresponding packages.\n\tThen, run this command again."
+
+    if [ -n "$showGUIMessageBox" ]; then
+      ShowGUIWarningMessageBox "The following required libraries seem to be missing:\n\n$missingLibraries\n\nPlease find and install the corresponding packages."
+    fi
+
+    return 1
+  fi
+}
+

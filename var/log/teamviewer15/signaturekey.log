@@ -1,0 +1,8 @@
+gpg: keyring '/usr/share/keyrings/teamviewer-keyring.gpg' created
+gpg: /root/.gnupg/trustdb.gpg: trustdb created
+gpg: key C5E224500C1289C0: public key "TeamViewer GmbH (TeamViewer Linux 2017) <support@teamviewer.com>" imported
+gpg: Total number processed: 1
+gpg:               imported: 1
+gpg: key 8DA84BE5DEB49217: public key "TeamViewer Germany GmbH (TeamViewer Linux 2020) <support@teamviewer.com>" imported
+gpg: Total number processed: 1
+gpg:               imported: 1

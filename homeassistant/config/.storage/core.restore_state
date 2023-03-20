@@ -1,0 +1,233 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "core.restore_state",
+  "data": [
+    {
+      "state": {
+        "entity_id": "person.bjornar_markussen",
+        "state": "unknown",
+        "attributes": {
+          "editable": true,
+          "id": "bjornar_markussen",
+          "user_id": "f7ebe9c897894815abb17a8b95285bf2",
+          "entity_picture": "/api/image/serve/5a79f5e4179d78ba28f782e7823fd80c/512x512",
+          "friendly_name": "Bjørnar Markussen"
+        },
+        "last_changed": "2023-03-19T23:54:37.155141+00:00",
+        "last_updated": "2023-03-20T00:16:31.933199+00:00",
+        "context": {
+          "id": "01GVY5ZWNXM17SNQE9YYXZ9EPC",
+          "parent_id": null,
+          "user_id": null
+        }
+      },
+      "extra_data": null,
+      "last_seen": "2023-03-20T12:24:40.382990+00:00"
+    },
+    {
+      "state": {
+        "entity_id": "person.node_admin",
+        "state": "unknown",
+        "attributes": {
+          "editable": true,
+          "id": "node_admin",
+          "user_id": "b90aabeb1a2d4afa892728f32a166e00",
+          "entity_picture": "/api/image/serve/7583b53b1ef9ea3ac9430e1492705c0b/512x512",
+          "friendly_name": "Node Admin"
+        },
+        "last_changed": "2023-03-19T23:54:37.155233+00:00",
+        "last_updated": "2023-03-20T00:17:33.743997+00:00",
+        "context": {
+          "id": "01GVY61S1FAZPFN4JF4ENQ3E6K",
+          "parent_id": null,
+          "user_id": null
+        }
+      },
+      "extra_data": null,
+      "last_seen": "2023-03-20T12:24:40.382990+00:00"
+    },
+    {
+      "state": {
+        "entity_id": "device_tracker.sm_g965f",
+        "state": "unknown",
+        "attributes": {
+          "source_type": "gps",
+          "friendly_name": "SM-G965F"
+        },
+        "last_changed": "2023-03-20T00:05:51.090041+00:00",
+        "last_updated": "2023-03-20T00:05:51.090041+00:00",
+        "context": {
+          "id": "01GVY5CAVJJFPFD0DK4FG7EA8Q",
+          "parent_id": null,
+          "user_id": null
+        }
+      },
+      "extra_data": null,
+      "last_seen": "2023-03-20T12:24:40.382990+00:00"
+    },
+    {
+      "state": {
+        "entity_id": "sensor.sm_g965f_battery_level",
+        "state": "57",
+        "attributes": {
+          "state_class": "measurement",
+          "unit_of_measurement": "%",
+          "device_class": "battery",
+          "icon": "mdi:battery-50",
+          "friendly_name": "SM-G965F Battery Level"
+        },
+        "last_changed": "2023-03-20T12:24:08.894151+00:00",
+        "last_updated": "2023-03-20T12:24:08.894151+00:00",
+        "context": {
+          "id": "01GVZFM6DY017HZB3ADKJ3H1KR",
+          "parent_id": null,
+          "user_id": null
+        }
+      },
+      "extra_data": {
+        "native_value": 57,
+        "native_unit_of_measurement": "%"
+      },
+      "last_seen": "2023-03-20T12:24:40.382990+00:00"
+    },
+    {
+      "state": {
+        "entity_id": "sensor.sm_g965f_battery_state",
+        "state": "discharging",
+        "attributes": {
+          "icon": "mdi:battery-minus",
+          "friendly_name": "SM-G965F Battery State"
+        },
+        "last_changed": "2023-03-20T06:18:43.523392+00:00",
+        "last_updated": "2023-03-20T06:18:43.523392+00:00",
+        "context": {
+          "id": "01GVYTQ2Y3BBHN3RS31D5Z566T",
+          "parent_id": null,
+          "user_id": null
+        }
+      },
+      "extra_data": {
+        "native_value": "discharging",
+        "native_unit_of_measurement": null
+      },
+      "last_seen": "2023-03-20T12:24:40.382990+00:00"
+    },
+    {
+      "state": {
+        "entity_id": "binary_sensor.sm_g965f_is_charging",
+        "state": "off",
+        "attributes": {
+          "device_class": "plug",
+          "icon": "mdi:power-plug-off",
+          "friendly_name": "SM-G965F Is Charging"
+        },
+        "last_changed": "2023-03-20T06:18:43.523599+00:00",
+        "last_updated": "2023-03-20T06:18:43.523599+00:00",
+        "context": {
+          "id": "01GVYTQ2Y3MN30171Q1M4KYEK4",
+          "parent_id": null,
+          "user_id": null
+        }
+      },
+      "extra_data": null,
+      "last_seen": "2023-03-20T12:24:40.382990+00:00"
+    },
+    {
+      "state": {
+        "entity_id": "sensor.sm_g965f_charger_type",
+        "state": "none",
+        "attributes": {
+          "icon": "mdi:battery",
+          "friendly_name": "SM-G965F Charger Type"
+        },
+        "last_changed": "2023-03-20T06:18:43.523824+00:00",
+        "last_updated": "2023-03-20T06:18:43.523824+00:00",
+        "context": {
+          "id": "01GVYTQ2Y3NQ33E0QMVEM30KCX",
+          "parent_id": null,
+          "user_id": null
+        }
+      },
+      "extra_data": {
+        "native_value": "none",
+        "native_unit_of_measurement": null
+      },
+      "last_seen": "2023-03-20T12:24:40.382990+00:00"
+    },
+    {
+      "state": {
+        "entity_id": "sensor.sm_g965f_battery_health",
+        "state": "good",
+        "attributes": {
+          "icon": "mdi:battery-heart-variant",
+          "friendly_name": "SM-G965F Battery Health"
+        },
+        "last_changed": "2023-03-20T00:05:52.690145+00:00",
+        "last_updated": "2023-03-20T00:05:52.690145+00:00",
+        "context": {
+          "id": "01GVY5CCDJ5PH2K6HSWGKX5PCV",
+          "parent_id": null,
+          "user_id": null
+        }
+      },
+      "extra_data": {
+        "native_value": "good",
+        "native_unit_of_measurement": null
+      },
+      "last_seen": "2023-03-20T12:24:40.382990+00:00"
+    },
+    {
+      "state": {
+        "entity_id": "sensor.sm_g965f_battery_temperature",
+        "state": "33.6",
+        "attributes": {
+          "state_class": "measurement",
+          "unit_of_measurement": "°C",
+          "device_class": "temperature",
+          "icon": "mdi:battery",
+          "friendly_name": "SM-G965F Battery Temperature"
+        },
+        "last_changed": "2023-03-20T12:24:08.894470+00:00",
+        "last_updated": "2023-03-20T12:24:08.894470+00:00",
+        "context": {
+          "id": "01GVZFM6DY0QC8DFT7HWJ7QD2Q",
+          "parent_id": null,
+          "user_id": null
+        }
+      },
+      "extra_data": {
+        "native_value": 33.6,
+        "native_unit_of_measurement": "°C"
+      },
+      "last_seen": "2023-03-20T12:24:40.382990+00:00"
+    },
+    {
+      "state": {
+        "entity_id": "sensor.sm_g965f_battery_power",
+        "state": "0.0",
+        "attributes": {
+          "state_class": "measurement",
+          "current": -0.00033,
+          "voltage": 3.775,
+          "unit_of_measurement": "W",
+          "device_class": "power",
+          "icon": "mdi:battery-minus",
+          "friendly_name": "SM-G965F Battery Power"
+        },
+        "last_changed": "2023-03-20T01:02:59.548158+00:00",
+        "last_updated": "2023-03-20T12:24:08.894712+00:00",
+        "context": {
+          "id": "01GVZFM6DYK65AD447HS6EWZQE",
+          "parent_id": null,
+          "user_id": null
+        }
+      },
+      "extra_data": {
+        "native_value": 0.0,
+        "native_unit_of_measurement": "W"
+      },
+      "last_seen": "2023-03-20T12:24:40.382990+00:00"
+    }
+  ]
+}

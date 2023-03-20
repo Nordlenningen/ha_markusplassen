@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "minor_version": 1,
+  "key": "person",
+  "data": {
+    "items": [
+      {
+        "name": "Bjørnar Markussen",
+        "user_id": "f7ebe9c897894815abb17a8b95285bf2",
+        "device_trackers": [
+          "device_tracker.sm_g965f"
+        ],
+        "id": "bjornar_markussen",
+        "picture": "/api/image/serve/5a79f5e4179d78ba28f782e7823fd80c/512x512"
+      },
+      {
+        "name": "Node Admin",
+        "device_trackers": [],
+        "user_id": "b90aabeb1a2d4afa892728f32a166e00",
+        "picture": "/api/image/serve/7583b53b1ef9ea3ac9430e1492705c0b/512x512",
+        "id": "node_admin"
+      }
+    ]
+  }
+}

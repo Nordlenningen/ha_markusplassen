@@ -1,0 +1,6 @@
+Sun Mar 19 14:43:38 CET 2023
+Action: Installing daemon (15.39.3) for 'systemd' ...
+installing /etc/systemd/system/teamviewerd.service (/opt/teamviewer/tv_bin/script/teamviewerd.service)
+Try: systemctl enable teamviewerd.service
+Created symlink /etc/systemd/system/multi-user.target.wants/teamviewerd.service → /etc/systemd/system/teamviewerd.service.
+systemctl start teamviewerd.service

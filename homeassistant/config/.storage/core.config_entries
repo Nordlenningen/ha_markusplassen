@@ -1,0 +1,165 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "core.config_entries",
+  "data": {
+    "entries": [
+      {
+        "entry_id": "ebc0dd1786975076ebbb667af8945ea0",
+        "version": 1,
+        "domain": "sun",
+        "title": "Sun",
+        "data": {},
+        "options": {},
+        "pref_disable_new_entities": false,
+        "pref_disable_polling": false,
+        "source": "import",
+        "unique_id": null,
+        "disabled_by": null
+      },
+      {
+        "entry_id": "a99b1bf55ef5e086e02086c97d4f90ae",
+        "version": 1,
+        "domain": "cast",
+        "title": "Google Cast",
+        "data": {
+          "ignore_cec": [],
+          "known_hosts": [],
+          "uuid": [],
+          "user_id": "b7b5dec3441d4e0ea35bb430f9a7e01c"
+        },
+        "options": {},
+        "pref_disable_new_entities": false,
+        "pref_disable_polling": false,
+        "source": "zeroconf",
+        "unique_id": "cast",
+        "disabled_by": null
+      },
+      {
+        "entry_id": "f90030dffb91f4d7be2d7b53d3319cca",
+        "version": 1,
+        "domain": "radio_browser",
+        "title": "Radio Browser",
+        "data": {},
+        "options": {},
+        "pref_disable_new_entities": false,
+        "pref_disable_polling": false,
+        "source": "onboarding",
+        "unique_id": null,
+        "disabled_by": null
+      },
+      {
+        "entry_id": "6c1848a5f00be61190f1ef74d876c662",
+        "version": 1,
+        "domain": "met",
+        "title": "Home",
+        "data": {
+          "track_home": true
+        },
+        "options": {},
+        "pref_disable_new_entities": false,
+        "pref_disable_polling": false,
+        "source": "onboarding",
+        "unique_id": null,
+        "disabled_by": null
+      },
+      {
+        "entry_id": "bae2c667ce55e49db3ebafadadb45092",
+        "version": 1,
+        "domain": "mqtt",
+        "title": "192.168.10.34",
+        "data": {
+          "broker": "192.168.10.34",
+          "port": 1883,
+          "username": "hass",
+          "password": "Triks_879!QazWsx",
+          "discovery": true,
+          "discovery_prefix": "homeassistant"
+        },
+        "options": {},
+        "pref_disable_new_entities": false,
+        "pref_disable_polling": false,
+        "source": "user",
+        "unique_id": null,
+        "disabled_by": null
+      },
+      {
+        "entry_id": "d77915dfe59c750d7b1ef3d8ad20e811",
+        "version": 1,
+        "domain": "hacs",
+        "title": "",
+        "data": {
+          "token": "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"
+        },
+        "options": {},
+        "pref_disable_new_entities": false,
+        "pref_disable_polling": false,
+        "source": "user",
+        "unique_id": null,
+        "disabled_by": null
+      },
+      {
+        "entry_id": "72a7b6bf68b81741275bdcff37608200",
+        "version": 1,
+        "domain": "salus",
+        "title": "Salus iT600 Gateway",
+        "data": {
+          "config_flow_device": "user",
+          "host": "192.168.10.3",
+          "token": "0000000000000000",
+          "mac": "00:1e:5e:03:d4:8f"
+        },
+        "options": {},
+        "pref_disable_new_entities": false,
+        "pref_disable_polling": false,
+        "source": "user",
+        "unique_id": "00:1e:5e:03:d4:8f",
+        "disabled_by": null
+      },
+      {
+        "entry_id": "0c09b124a473be6441f29340dcb06fd3",
+        "version": 1,
+        "domain": "nodered",
+        "title": "name",
+        "data": {},
+        "options": {},
+        "pref_disable_new_entities": false,
+        "pref_disable_polling": false,
+        "source": "user",
+        "unique_id": null,
+        "disabled_by": null
+      },
+      {
+        "entry_id": "8fd2fdb88e9a4d89ee2ab7b1c2fac0cb",
+        "version": 1,
+        "domain": "mobile_app",
+        "title": "SM-G965F",
+        "data": {
+          "app_id": "io.homeassistant.companion.android",
+          "app_name": "Home Assistant",
+          "app_version": "2023.1.1-full (3124)",
+          "device_name": "SM-G965F",
+          "manufacturer": "samsung",
+          "model": "SM-G965F",
+          "os_name": "Android",
+          "os_version": "29",
+          "supports_encryption": false,
+          "app_data": {
+            "push_websocket_channel": true,
+            "push_url": "https://mobile-apps.home-assistant.io/api/sendPush/android/v1",
+            "push_token": "dWTcVXCCQ3yns-rDCW70_m:APA91bGGYOHwBEe0F_WT-yEG6ZnJyrkCqWVgOswXIMaRxK9nm-lddYvi-e0DAQ-XXNVRkKpBUOO8pkQEyZrsEuealNfGo9o1vjkuezcuYSFtH-pM5yi6earJiKiWUvDasRdJm8yquYBt"
+          },
+          "device_id": "459c7c2b7e996b1d",
+          "webhook_id": "46d35224280d01e34504eeccfe82ffb51e748ccbadca04cfc6e6b0ee1bf8385b",
+          "user_id": "f7ebe9c897894815abb17a8b95285bf2"
+        },
+        "options": {},
+        "pref_disable_new_entities": false,
+        "pref_disable_polling": false,
+        "source": "registration",
+        "unique_id": "io.homeassistant.companion.android-459c7c2b7e996b1d",
+        "disabled_by": null
+      }
+    ]
+  }
+}

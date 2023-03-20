@@ -1,0 +1,326 @@
+{
+  "version": 1,
+  "minor_version": 3,
+  "key": "core.device_registry",
+  "data": {
+    "devices": [
+      {
+        "area_id": null,
+        "config_entries": [
+          "a99b1bf55ef5e086e02086c97d4f90ae"
+        ],
+        "configuration_url": null,
+        "connections": [],
+        "disabled_by": null,
+        "entry_type": null,
+        "hw_version": null,
+        "id": "b1326c39e81da94e5571f542145738f5",
+        "identifiers": [
+          [
+            "cast",
+            "320b6cc7d005bf0a3f6901b840066f4a"
+          ]
+        ],
+        "manufacturer": "Google Inc.",
+        "model": "Chromecast Ultra",
+        "name_by_user": null,
+        "name": "Loftstue",
+        "sw_version": null,
+        "via_device_id": null
+      },
+      {
+        "area_id": null,
+        "config_entries": [
+          "6c1848a5f00be61190f1ef74d876c662"
+        ],
+        "configuration_url": "https://www.met.no/en",
+        "connections": [],
+        "disabled_by": null,
+        "entry_type": "service",
+        "hw_version": null,
+        "id": "bbd8f7c8ba8630b3fa6df178c2034739",
+        "identifiers": [
+          [
+            "met"
+          ]
+        ],
+        "manufacturer": "Met.no",
+        "model": "Forecast",
+        "name_by_user": null,
+        "name": "Forecast",
+        "sw_version": null,
+        "via_device_id": null
+      },
+      {
+        "area_id": "markusplassen",
+        "config_entries": [
+          "d77915dfe59c750d7b1ef3d8ad20e811"
+        ],
+        "configuration_url": "homeassistant://hacs",
+        "connections": [],
+        "disabled_by": null,
+        "entry_type": "service",
+        "hw_version": null,
+        "id": "a7dd4dd3ec072be835991dbf202af3a7",
+        "identifiers": [
+          [
+            "hacs",
+            "0717a0cd-745c-48fd-9b16-c8534c9704f9-bc944b0f-fd42-4a58-a072-ade38d1444cd"
+          ]
+        ],
+        "manufacturer": "hacs.xyz",
+        "model": "",
+        "name_by_user": null,
+        "name": "HACS",
+        "sw_version": "1.31.0",
+        "via_device_id": null
+      },
+      {
+        "area_id": "101_yttergang",
+        "config_entries": [
+          "72a7b6bf68b81741275bdcff37608200"
+        ],
+        "configuration_url": null,
+        "connections": [
+          [
+            "mac",
+            "00:1e:5e:03:d4:8f"
+          ]
+        ],
+        "disabled_by": null,
+        "entry_type": null,
+        "hw_version": null,
+        "id": "33da4e6a1826d071d61c51fb5361bee4",
+        "identifiers": [
+          [
+            "salus",
+            "00:1e:5e:03:d4:8f"
+          ]
+        ],
+        "manufacturer": "SALUS",
+        "model": "UGE600",
+        "name_by_user": null,
+        "name": "UGE600",
+        "sw_version": null,
+        "via_device_id": null
+      },
+      {
+        "area_id": null,
+        "config_entries": [
+          "72a7b6bf68b81741275bdcff37608200"
+        ],
+        "configuration_url": null,
+        "connections": [],
+        "disabled_by": null,
+        "entry_type": null,
+        "hw_version": null,
+        "id": "d2c731af3d7051c6044048837697e760",
+        "identifiers": [
+          [
+            "salus",
+            "001e5e0909029e25"
+          ]
+        ],
+        "manufacturer": "SALUS",
+        "model": "SQ610RF",
+        "name_by_user": null,
+        "name": "K01 - Kjøkken",
+        "sw_version": "00000024",
+        "via_device_id": null
+      },
+      {
+        "area_id": null,
+        "config_entries": [
+          "72a7b6bf68b81741275bdcff37608200"
+        ],
+        "configuration_url": null,
+        "connections": [],
+        "disabled_by": null,
+        "entry_type": null,
+        "hw_version": null,
+        "id": "e6aad17ffc9a9c2a71365bc24683bcb9",
+        "identifiers": [
+          [
+            "salus",
+            "001e5e0909029cdb"
+          ]
+        ],
+        "manufacturer": "SALUS",
+        "model": "SQ610RF",
+        "name_by_user": null,
+        "name": "K03 - Stue 2",
+        "sw_version": "00000024",
+        "via_device_id": null
+      },
+      {
+        "area_id": null,
+        "config_entries": [
+          "72a7b6bf68b81741275bdcff37608200"
+        ],
+        "configuration_url": null,
+        "connections": [],
+        "disabled_by": null,
+        "entry_type": null,
+        "hw_version": null,
+        "id": "ec335f2e7e3e52e4d70d614d7302a7ae",
+        "identifiers": [
+          [
+            "salus",
+            "001e5e0909029cc5"
+          ]
+        ],
+        "manufacturer": "SALUS",
+        "model": "SQ610RF",
+        "name_by_user": null,
+        "name": "K11 - Soverom M",
+        "sw_version": "00000024",
+        "via_device_id": null
+      },
+      {
+        "area_id": null,
+        "config_entries": [
+          "72a7b6bf68b81741275bdcff37608200"
+        ],
+        "configuration_url": null,
+        "connections": [],
+        "disabled_by": null,
+        "entry_type": null,
+        "hw_version": null,
+        "id": "976b105e82c38a0a39c56493fe7b1b9b",
+        "identifiers": [
+          [
+            "salus",
+            "001e5e0909029d6b"
+          ]
+        ],
+        "manufacturer": "SALUS",
+        "model": "SQ610RF",
+        "name_by_user": null,
+        "name": "K07 - Soverom Høyre",
+        "sw_version": "00000024",
+        "via_device_id": null
+      },
+      {
+        "area_id": null,
+        "config_entries": [
+          "72a7b6bf68b81741275bdcff37608200"
+        ],
+        "configuration_url": null,
+        "connections": [],
+        "disabled_by": null,
+        "entry_type": null,
+        "hw_version": null,
+        "id": "4258e9e118e6f7240d63f98f2ab6bd78",
+        "identifiers": [
+          [
+            "salus",
+            "001e5e090902bcb2"
+          ]
+        ],
+        "manufacturer": "SALUS",
+        "model": "SQ610RF",
+        "name_by_user": null,
+        "name": "K12 - Loftstue",
+        "sw_version": "00000024",
+        "via_device_id": null
+      },
+      {
+        "area_id": null,
+        "config_entries": [
+          "72a7b6bf68b81741275bdcff37608200"
+        ],
+        "configuration_url": null,
+        "connections": [],
+        "disabled_by": null,
+        "entry_type": null,
+        "hw_version": null,
+        "id": "cb6796019999ef2c6a01b43d620c322a",
+        "identifiers": [
+          [
+            "salus",
+            "001e5e090902bf2e"
+          ]
+        ],
+        "manufacturer": "SALUS",
+        "model": "SQ610RF",
+        "name_by_user": null,
+        "name": "K09 - Soverom Venstre",
+        "sw_version": "00000024",
+        "via_device_id": null
+      },
+      {
+        "area_id": null,
+        "config_entries": [
+          "72a7b6bf68b81741275bdcff37608200"
+        ],
+        "configuration_url": null,
+        "connections": [],
+        "disabled_by": null,
+        "entry_type": null,
+        "hw_version": null,
+        "id": "bddfb6342d8ce5149728639b458a5f5c",
+        "identifiers": [
+          [
+            "salus",
+            "001e5e0909029dfd"
+          ]
+        ],
+        "manufacturer": "SALUS",
+        "model": "SQ610RF",
+        "name_by_user": null,
+        "name": "K02 - Stue 1",
+        "sw_version": "00000024",
+        "via_device_id": null
+      },
+      {
+        "area_id": null,
+        "config_entries": [
+          "72a7b6bf68b81741275bdcff37608200"
+        ],
+        "configuration_url": null,
+        "connections": [],
+        "disabled_by": null,
+        "entry_type": null,
+        "hw_version": null,
+        "id": "1ee72e998e63aab95ca4bc0f28539d89",
+        "identifiers": [
+          [
+            "salus",
+            "001e5e0909029e24"
+          ]
+        ],
+        "manufacturer": "SALUS",
+        "model": "SQ610RF",
+        "name_by_user": null,
+        "name": "K08 - Kontor",
+        "sw_version": "00000024",
+        "via_device_id": null
+      },
+      {
+        "area_id": null,
+        "config_entries": [
+          "8fd2fdb88e9a4d89ee2ab7b1c2fac0cb"
+        ],
+        "configuration_url": null,
+        "connections": [],
+        "disabled_by": null,
+        "entry_type": null,
+        "hw_version": null,
+        "id": "f454ee2ed06ff1c18b377198e382bae6",
+        "identifiers": [
+          [
+            "mobile_app",
+            "459c7c2b7e996b1d"
+          ]
+        ],
+        "manufacturer": "samsung",
+        "model": "SM-G965F",
+        "name_by_user": null,
+        "name": "SM-G965F",
+        "sw_version": "29",
+        "via_device_id": null
+      }
+    ],
+    "deleted_devices": []
+  }
+}

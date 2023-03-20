@@ -1,0 +1,16 @@
+--2023-03-19 22:17:23--  https://get.hacs.xyz/
+Slår opp vertsnavn get.hacs.xyz (get.hacs.xyz) … 2606:4700:3031::ac43:8f2c, 2606:4700:3034::6815:272a, 172.67.143.44, ...
+Kobler til get.hacs.xyz (get.hacs.xyz)|2606:4700:3031::ac43:8f2c|:443 … tilkoblet.
+HTTP-forespørsel sendt. Venter på svar … 301 Moved Permanently
+Plassering: https://raw.githubusercontent.com/hacs/get/main/get [følgende]
+--2023-03-19 22:17:23--  https://raw.githubusercontent.com/hacs/get/main/get
+Slår opp vertsnavn raw.githubusercontent.com (raw.githubusercontent.com) … 2606:50c0:8000::154, 2606:50c0:8003::154, 2606:50c0:8002::154, ...
+Kobler til raw.githubusercontent.com (raw.githubusercontent.com)|2606:50c0:8000::154|:443 … tilkoblet.
+HTTP-forespørsel sendt. Venter på svar … 200 OK
+Lengde: 3988 (3,9K) [text/plain]
+Lagrer til: ‘STDOUT’
+
+-                0%       0  --.-KB/s                   -              100%   3,89K  --.-KB/s    på 0s          
+
+2023-03-19 22:17:23 (60,0 MB/s) - skrevet til standard utkanal [3988/3988]
+

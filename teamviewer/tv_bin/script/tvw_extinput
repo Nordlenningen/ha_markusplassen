@@ -1,0 +1,39 @@
+TV_INPUTDEV_DIR='/dev'
+TV_INPUTDEV_FILE='teamviewer-input'
+TV_INPUTDEV_PATH="$TV_INPUTDEV_DIR/$TV_INPUTDEV_FILE"
+
+function createExtInputDevice()
+{
+  local misc_major=10 # uapi/linux/major.h
+  local uinput_minor=223 # miscdevice.h
+
+  if ! extInputDeviceFileExists; then
+    mknod "$TV_INPUTDEV_PATH" c "$misc_major" "$uinput_minor" || return 1
+  fi
+
+  BDecho "The file $TV_INPUTDEV_PATH must be made writable for the user to use extended input"
+}
+
+function extInputDeviceFileExists()
+{
+  test -c "$TV_INPUTDEV_PATH"
+}
+
+function removeExtInputDevice()
+{
+  extInputDeviceFileExists && rm -f "$TV_INPUTDEV_PATH"
+}
+
+function checkExtInputDevice()
+{
+  if ! extInputDeviceFileExists; then
+    echo -n "Extended input is not enabled: device file $TV_INPUTDEV_PATH does not exist"
+    return 0
+  fi
+
+  if [ ! -w "$TV_INPUTDEV_PATH" ]; then
+    BDecho "$TV_INPUTDEV_PATH is NOT writable for user with UID=$UID"
+  else
+    echo "ok for user with ID=$UID: the device file $TV_INPUTDEV_PATH exists and is writable for user with UID=$UID"
+  fi
+}

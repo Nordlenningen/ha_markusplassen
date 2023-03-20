@@ -1,0 +1,267 @@
+
+TVD_SYSV_DIR='/etc/init.d'
+TVD_SYSV_SRC='teamviewerd.sysv'
+TVD_SYSV_FILE='teamviewerd'
+TVD_SYSV_PATH="$TVD_SYSV_DIR/$TVD_SYSV_FILE"
+
+TVD_SYSD_DIR='/etc/systemd/system'	# overrides /lib/systemd/system  /usr/lib/systemd/system
+TVD_SYSD_FILE='teamviewerd.service'
+TVD_SYSD_PATH="$TVD_SYSD_DIR/$TVD_SYSD_FILE"
+
+TVD_RUN_STATE='True'        # Running of Daemon with enabling/update of TeamViewer. Default: True
+TVD_ENABLE_STATE='True' # enable starting of daemon with every restart. Default: True
+TVD_UPDATE_STATUS_FILE_PATH='/opt/teamviewer/teamviewerd_update_status'
+
+
+function installLog()
+{
+  if [ "$TV_PACKAGE_INSTALL" = "yes" ]; then
+    cat >> "$TV_INSTALL_LOG"
+  else
+    tee -a "$TV_INSTALL_LOG"
+  fi
+}
+
+function installLogHeader()
+{
+  local action="$1"
+
+  [ -e "$TV_INSTALL_LOG" ] && echo
+  date
+  echo "Action: $action"
+}
+
+function detectSystemD
+{
+  local forcesysv='/opt/teamviewer/config/systemv'
+  [ -f $forcesysv ]	&& return 1	# override detection
+  cmdExists systemctl	|| return 1	# no root required
+  isSuperUser		|| return 0	# if root, check more
+
+  local systemd=$( readlink -e $(getInitCmd) 2>/dev/null | grep systemd )
+  [ -n "$systemd" ]
+}
+
+function installDaemon()
+{
+  exec 2>&1
+
+  local dtype='V'
+  detectSystemD && dtype='D'
+
+  [ $dtype = 'V' ] && installDaemonSysV			| installLog
+  [ $dtype = 'D' ] && installDaemonSystemD		| installLog
+
+  [ "${TVD_ENABLE_STATE}" = 'False' ] && disableDaemon
+
+  [ "${TVD_RUN_STATE}" = 'True' ] &&  cmdDaemon 'start'				| installLog
+}
+
+function installDaemonSysV()
+{
+  exec 2>&1
+
+  installLogHeader "Installing daemon ($TV_VERSION) for 'SystemV' ..."
+  installDaemonCfg "$TVD_SYSV_DIR" "$TVD_SYSV_SRC" "$TVD_SYSV_FILE"
+
+  local chkcfg='chkconfig'
+  cmdExists $chkcfg || chkcfg='/sbin/chkconfig'	# not in PATH on CentOS 5.x
+
+  cmdExists $chkcfg     && $chkcfg --add "$TVD_SYSV_FILE"			&& return
+  cmdExists update-rc.d && update-rc.d "$TVD_SYSV_FILE" defaults 99 5	&& return
+
+  echo "Failed to update daemon configuration"
+}
+
+function installDaemonSystemD()
+{
+  exec 2>&1
+
+  installLogHeader "Installing daemon ($TV_VERSION) for 'systemd' ..."
+  installDaemonCfg "$TVD_SYSD_DIR" "$TVD_SYSD_FILE"
+  systemctl daemon-reload		# just in case...
+
+  enableDaemonSystemD
+}
+
+function installDaemonCfg
+{
+  local dir="$1"
+  local file="$2"
+  local link="$3"
+  [ -n "$link" ] || link="$file"
+
+  [ -d "$dir" ] || return
+
+  echo "installing $dir/$link ("$TV_SCRIPT_DIR/$file")"
+  cp -f "$TV_SCRIPT_DIR/$file" "$dir/$link"
+}
+
+function enableDaemon
+{
+  local dtype='V'
+  detectSystemD && dtype='D'
+
+  [ $dtype = 'V' ] && enableDaemonSysV			| installLog
+  [ $dtype = 'D' ] && enableDaemonSystemD		| installLog
+}
+
+function enableDaemonSysV
+{
+  local chkcfg='chkconfig'
+  cmdExists $chkcfg || chkcfg='/sbin/chkconfig'	# not in PATH on CentOS 5.x
+
+  cmdExists $chkcfg     && $chkcfg "$TVD_SYSV_FILE" on		        && return
+  cmdExists update-rc.d && update-rc.d "$TVD_SYSV_FILE" enable	&& return
+}
+
+function enableDaemonSystemD
+{
+  echo "Try: systemctl enable $TVD_SYSD_FILE"
+  systemctl enable "$TVD_SYSD_FILE"			# on Fedora 15, systemctl does not accept a full path (to /opt/...)
+  [ $? = 0 ] && return
+
+  echo "Try: systemctl enable $TV_SCRIPT_DIR/$TVD_SYSD_FILE"
+  systemctl enable "$TV_SCRIPT_DIR/$TVD_SYSD_FILE"	# on openSUSE 12.2, systemctl does not accept a sole filename (if symlink?)
+}
+
+function disableDaemon
+{
+  local dtype='V'
+  detectSystemD && dtype='D'
+
+  [ $dtype = 'V' ] && disableDaemonSysV			| installLog
+  [ $dtype = 'D' ] && disableDaemonSystemD		| installLog
+}
+
+function disableDaemonSysV
+{
+  local chkcfg='chkconfig'
+  cmdExists $chkcfg || chkcfg='/sbin/chkconfig'	# not in PATH on CentOS 5.x
+
+  cmdExists $chkcfg     && $chkcfg "$TVD_SYSV_FILE" off			&& return
+  cmdExists update-rc.d && update-rc.d "$TVD_SYSV_FILE" disable	&& return
+}
+
+function disableDaemonSystemD
+{
+  echo "Try: systemctl disable $TVD_SYSD_FILE"
+  systemctl disable "$TVD_SYSD_FILE"			# on Fedora 15, systemctl does not accept a full path (to /opt/...)
+  [ $? = 0 ] && return
+
+  echo "Try: systemctl disable $TV_SCRIPT_DIR/$TVD_SYSD_FILE"
+  systemctl disable "$TV_SCRIPT_DIR/$TVD_SYSD_FILE"	# on openSUSE 12.2, systemctl does not accept a sole filename (if symlink?)
+}
+
+
+function removeDaemon()
+{
+  exec 2>&1
+
+  removeDaemonAny			| installLog
+
+  true
+}
+
+function removeDaemonAny()
+{
+  installLogHeader "Removing ..."
+  cmdDaemon 'stop'
+  stopTeamViewer	# just to make sure ...
+
+ # TODO verify / update
+
+  if [ -e "$TVD_SYSV_PATH" ]; then
+    rm -f "$TVD_SYSV_PATH"
+    local chkcfg='chkconfig'
+    cmdExists $chkcfg || chkcfg='/sbin/chkconfig'	# not in PATH on CentOS 5.x
+
+    cmdExists $chkcfg && $chkcfg --del "$TVD_SYSV_FILE"
+    cmdExists update-rc.d && update-rc.d "$TVD_SYSV_FILE" remove
+  fi
+
+  if detectSystemD; then
+    disableDaemonSystemD
+    rm -f "$TVD_SYSD_PATH"
+    systemctl daemon-reload
+  fi
+
+  true
+}
+
+function stopTeamViewer()
+{
+  killall -q teamviewerd TeamViewer TeamViewer_Desktop teamviewer-config # Kill all running TV instances, if any
+}
+
+function cmdDaemon()
+{
+  local opt="$1"
+  local cmd="$(daemonCtl $opt)"
+
+  echo "$cmd"
+  eval "$cmd"
+}
+
+function daemonCtl()
+{
+  local opt="$1"
+  local cmd="$TVD_SYSV_PATH $opt"				# SystemV
+  detectSystemD && cmd="systemctl $opt $TVD_SYSD_FILE"		# SystemD
+  echo "$cmd"
+}
+
+function isDaemonEnabled()
+{
+  if detectSystemD; then
+    local output=$(systemctl is-enabled "${TVD_SYSD_FILE}")
+    [ "$output" = "enabled" ] && return 0
+    [ "$output" = "disabled" ] && return 1  #explicit checking is required for disabled. The error in command, and "disabled" service returns the same status code 1
+    #try again, full path...
+    systemctl is-enabled -q "$TV_SCRIPT_DIR/$TVD_SYSD_FILE" && return 0
+  elif [ -e "$TVD_SYSV_PATH" ]; then
+    local chkcfg='chkconfig'
+    cmdExists $chkcfg || chkcfg='/sbin/chkconfig'	# not in PATH on CentOS 5.x
+    cmdExists $chkcfg && $chkcfg "$TVD_SYSV_FILE" && return 0
+    local enabled=$(find /etc/rc* -maxdepth 1 -type l -name  'S[0-9][0-9]teamviewerd')
+    [ -n "$enabled" ] && return 0
+  fi
+
+  return 1
+}
+
+function isDaemonRunning()
+{
+  if detectSystemD; then
+    systemctl is-active -q "$TVD_SYSD_FILE" && return 0
+    #try again, full path...
+    systemctl is-active -q "$TV_SCRIPT_DIR/$TVD_SYSD_FILE" && return 0
+  elif [ -e "$TVD_SYSV_PATH" ]; then
+    local running=$("${TVD_SYSV_PATH}" status | grep "teamviewerd start/running")
+    [ -n "$running" ] && return 0
+  fi
+
+  return 1
+}
+
+function saveDaemonState
+{
+  isDaemonEnabled || echo "local DAEMON_AUTO_START_STATE=disabled" >> "${TVD_UPDATE_STATUS_FILE_PATH}"
+  isDaemonRunning || echo "local DAEMON_RUN_STATE=stopped"        >> "${TVD_UPDATE_STATUS_FILE_PATH}"
+
+  return 0
+}
+
+function recoverDaemonState
+{
+  if [ -e "${TVD_UPDATE_STATUS_FILE_PATH}" ]; then
+
+    source "${TVD_UPDATE_STATUS_FILE_PATH}"
+    [ ${DAEMON_AUTO_START_STATE:='none'} == 'disabled' ] && TVD_ENABLE_STATE='False'
+    [ ${DAEMON_RUN_STATE:='none'} == 'stopped' ]        && TVD_RUN_STATE='False'
+
+    rm "${TVD_UPDATE_STATUS_FILE_PATH}"
+  fi
+
+  return 0
+}

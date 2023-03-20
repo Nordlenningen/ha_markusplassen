@@ -1,0 +1,223 @@
+
+source "$TV_SCRIPT_DIR/tvw_aux"
+source "$TV_SCRIPT_DIR/tvw_config"
+source "$TV_SCRIPT_DIR/tvw_exec"
+source "$TV_SCRIPT_DIR/tvw_extra"
+source "$TV_SCRIPT_DIR/tvw_daemon"
+source "$TV_SCRIPT_DIR/tvw_extinput"
+source "$TV_SCRIPT_DIR/tvw_libcheck"
+source "$TV_SCRIPT_DIR/tvw_profile"
+source "$TV_SCRIPT_DIR/tvw_update"
+
+function Main()
+{
+  local action="$(ActionTrim "$1")"
+  local opt="$2"
+
+  set -o pipefail
+
+  echo
+  case "$action" in
+    'help'                )        PrintHelp                         ;;
+    'version'             )        PrintVersion                      ;;
+    'info'                )        PrintInfo                         ;;
+    'ziplog'              )        CreateZipLog                      ;;
+    'license'             )        Run_Config --license "$opt"       ;;
+    'passwd'              )        SetPasswd "$opt"                  ;;
+    'daemon'              )        Run_Daemon $opt                   ;;
+    'extended-input'      )        Run_ExtInput "$opt"               ;;
+    'setup'               )        Run_Config "$@"                   ;;
+    'assignment'          )        Run_ManageDevice "$@"             ;;
+    'unassign'            )        Run_ManageDevice "$@"             ;;
+    'repo' | 'repository' ) shift; Run_Repository "$@"               ;;
+    'uninstall'           )        UninstallTAR "$opt"               ;;
+
+    'ps'                  )        ListProcesses ps                  ;;
+    'pstree'              )        ListProcesses tree                ;;
+    'export-license'      )        ExportLicense "$opt"              ;;
+    'net'                 )        PrepareNetwork                    ;;
+    *                     )        Run_TeamViewer "$@"               ;;
+  esac
+
+  echo
+}
+
+function ActionTrim()
+{
+  local param="$1"
+  local trim=0
+  [[ "$param" = -*  ]] && trim=1
+  [[ "$param" = --* ]] && trim=2
+  echo "${param:$trim}"
+}
+
+function Init()
+{
+  local opt="$1"
+
+  exec 2>&1                                # redirect stderr
+  InitDirs || die "InitDirs failed. ($?)"  # needed for log
+  echo "Init..." | TeeLog reset            # truncate startup log
+  validateUser || exit 1
+
+  LogStartupInfo | Log	|| die "Init failed. Please check '$TV_STARTLOG'"
+  CheckCPU
+  CheckEnvironment # no pipe, no subshell
+  ExtractBinaries
+
+  echo "Checking setup..."
+
+  if isQuickSupport; then
+    QuickCheckLibs | Log || die "Some libraries are missing. Please check '$TV_STARTLOG'"
+  fi
+
+  InitProfile | Log || die "InitProfile failed. Please check '$TV_STARTLOG'"
+}
+
+function InitDirs()
+{
+  make_path "$TV_LOG_DIR"    || return 1		# needed by LockStartup
+  make_path "$TV_CFG_DIR"    || return 2
+}
+
+function CheckCPU()
+{
+  local -r arch="$(uname -m)"
+  local check='CheckCPU: SSE2 support: yes'
+
+  case "$arch" in
+    ( i686 | x86_64 )
+      if ! grep -q -w sse2 /proc/cpuinfo; then
+        check="${check/yes/not found. TeamViewer cannot start}"
+        echo "$check" | Log
+        die "$check"
+      fi
+    ;;
+    ( armv7l )
+      check='CheckCPU: armv7l'
+    ;;
+    ( aarch64 )
+      check='CheckCPU: aarch64'
+    ;;
+    ( * )
+      die "CheckCPU: unknown architecture '$arch'"
+  esac
+
+    echo "$check" | TeeLog
+}
+
+function CheckEnvironment()
+{
+  isQuickSupport       || return
+  [ -n "$LD_PRELOAD" ] || return
+
+  echo "Removing LD_PRELOAD='$LD_PRELOAD'"
+  unset LD_PRELOAD
+}
+
+function QuickCheckLibs()
+{
+  local -r lddlog="$TV_LOG_DIR/DependencyCheck.log"
+
+  RunLddCheck "$lddlog"
+
+  AnalyzeLddResult "$lddlog" showGUIMessageBox
+}
+
+function LogStartupInfo()
+{
+  HeadEcho "TeamViewer:"	"$TV_VERSION - $TV_PKGTYPE"
+  HeadEcho "Profile:"		"$HOME ($LOGNAME)"
+  HeadEcho "Desktop:"		"DS: '$DESKTOP_SESSION' 	XDG: '$XDG_CURRENT_DESKTOP'"
+  HeadEcho "XServer TTY:"	"$(InfoXServerTTY)"
+
+  echo
+
+  echo "ok (info)"
+  echo
+}
+
+function InfoXServerTTY()
+{
+  local xfvt=
+  cmdExists xprop && xfvt=$(xprop -root XFree86_VT | grep INTEGER | cut -f2 -d=)
+  xfvt=${xfvt:-'none'}
+  echo $xfvt
+}
+
+function PrepareNetwork()
+{
+  LockStartup	 # terminates on failure
+  Init 'runGui'
+
+  echo 'Launching TeamViewer ...'
+
+  RequireNetwork
+
+  UnlockStartup
+}
+
+
+function Run_TeamViewer()
+{
+  local inst=
+  local -r logPath="$TV_LOG_DIR/gui.log"
+
+  isInstalledTV || inst='-n'
+
+  PrepareNetwork
+
+  echo 'Launching TeamViewer GUI ...'
+
+  exec "$TV_BIN_DIR/TeamViewer" "$inst" "$@" &> "$logPath"
+}
+
+function Run_Daemon()
+{
+  local opt="$1"
+
+  installedTVorDie
+
+  case "$opt" in
+    ( disable )                 disableDaemon   || rootSuggest  ;;
+    ( enable  )                 enableDaemon    || rootSuggest  ;;
+    ( start | stop | restart )  cmdDaemon $opt  || rootSuggest  ;;
+    ( status )                  cmdDaemon $opt                  ;;
+    ( * )                       echo "unknown option '$opt'"    ;;
+  esac
+}
+
+function Run_ExtInput()
+{
+  local opt="$1"
+
+  case "$opt" in
+    ( enable )                  createExtInputDevice    || rootSuggest  ;;
+    ( disable  )                removeExtInputDevice    || rootSuggest  ;;
+    ( status )                  checkExtInputDevice                     ;;
+    ( * )                       echo "unknown option '$opt'"    ;;
+  esac
+}
+
+function Run_Config()
+{
+  local tvconfig="$TV_BIN_DIR/teamviewer-config"
+  [ -z "$DISPLAY" ] && export TV_SESSIONTYPE=F
+  exec "$tvconfig" "$@"
+}
+
+function Run_ManageDevice()
+{
+  local tvmanagedevice="$TV_BIN_DIR/teamviewer-managedevice"
+  exec "$tvmanagedevice" "$@"
+}
+
+function UninstallTAR()
+{
+  local force="$1"
+  local instSetup="$TV_SCRIPT_DIR/teamviewer_setup"
+
+  [ "$TV_PKGTYPE" == "TAR_IN" ] || return
+
+  "$instSetup" uninstall "$force"
+}
